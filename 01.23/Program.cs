@@ -57,36 +57,57 @@ namespace _01._23
             StreamReader be = new StreamReader("humming.txt");
             string szo = "";
             List<string> lista = new List<string>();
-            while (!be.EndOfStream)
+
+            using (StreamWriter az = new StreamWriter("eredmeny.txt"))
             {
-                szo = be.ReadLine();
 
-                string[] tmp = be.ReadLine().Split(';');
 
-                lista.Clear();
-                foreach (var t in tmp)
+
+
+                while (!be.EndOfStream)
                 {
-                    lista.Add(t);
-                }
-                
-                Console.WriteLine($"szó: {szo}");
-                Console.Write("lista: ");
-                foreach (var i in lista)
-                {
-                    Console.Write($"{i}, ");
+                    szo = be.ReadLine();
+
+                    string[] tmp = be.ReadLine().Split(';');
+
+                    lista.Clear();
+                    foreach (var t in tmp)
+                    {
+                        lista.Add(t);
+                    }
+
+                    Console.WriteLine($"szó: {szo}");
+                    az.WriteLine($"szó: {szo}");
+
+                    Console.Write("lista: ");
+                    az.Write("lista: ");
+                    foreach (var i in lista)
+                    {
+                        Console.Write($"{i}, ");
+                        az.Write($"{i}, ");
+                    }
+
+
+                    Console.Write("\neredmény: ");
+                    az.Write("\neredmény: ");
+                    foreach (var item in HammingLista(szo, lista))
+                    {
+                        Console.Write($"{item}, ");
+                        az.Write($"{item}, ");
+                    }
+
+                    Console.WriteLine();
                 }
 
 
-                Console.Write("\neredmény: ");
-                foreach (var item in HammingLista(szo, lista))
-                {
-                    Console.Write($"{item}, ");
-                }
 
-                Console.WriteLine();
+
+             be.Close();
+             az.Close();
+
+
             }
-            be.Close();
-            
+
 
 
             Console.ReadKey();
